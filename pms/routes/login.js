@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const usermodel = require("model/users.js");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -14,7 +15,8 @@ router.post('/', (req, res, next)=> {
 const username = req.body.username;
 const password = req.body.password;
 if (username == "user1" && password == 'hello')  {
-  res.render('user');
+  res.render('profile');
+
 }
 else  {
   res.render('login', {error: true});
