@@ -8,8 +8,8 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 
-router.post('/', (req, res, next)=> {
-  res.render('profile');
-});
+// router.post('/', (req, res, next)=> {
+//   res.render('profile');
+// });
 
-module.exports = router;
+// module.exports = router;

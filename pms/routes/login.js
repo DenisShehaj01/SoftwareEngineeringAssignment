@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const usermodel = require("model/users.js");
+const usermodel = require("../../model/users"); //**  you may need to change file path to absolute instead of relative
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

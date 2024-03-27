@@ -1,5 +1,6 @@
 const fs = require('fs');
-const userInfo = JSON.parse(fs.readFileSync('./SoftwareEngineeringAssignment/userdb.json', 'utf-8'));
+const userInfo = JSON.parse(fs.readFileSync('../userdb.json', 'utf-8'));
+//**  you may need to change file path to absolute instead of relative
 
 exports.getUsers=()=>{
     return userInfo;
