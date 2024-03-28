@@ -1,17 +1,8 @@
 doctype html
 html
     
-    
-
     head
-        style(type="text/css").
-            .container {
-                position: relative;
-            }
-            .image2 {
-                position: absolute;
-                left: -100px;
-            }
+        
         title= title
         link(rel='stylesheet', href='/stylesheets/style.css')
     body 
@@ -74,6 +65,14 @@ html
             .active {
             background-color: #53b0b5;
             }
+            h1 {
+                top: 5%;
+                left: 25%;
+                position: relative;
+                font-size: 90px;
+                //- font-family: Consolas,monaco,monospace;
+                color: #273036;
+            }
 
 
         nav#navbar
@@ -82,7 +81,7 @@ html
                 
                 li #[<a class = "active" href = "/profile"> Home]
                 li #[a(href = "/") Park]
-                <li style="float:right"> #[a(href = "/edit") Settings]
+                <li style="float:right"> #[a(href = "/settings") Settings]
                 <li style="float:right"><a href = "/notifications">Notfications</a></li>
                 
         
