@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var login = require('./routes/login');
 var profile = require('./routes/profile');
 var settings = require('./routes/settings');
+var create = require('./routes/create');
 
 var app = express();
 
@@ -25,6 +26,8 @@ app.use('/', indexRouter);
 app.use('/login', login);
 app.use('/profile', profile);
 app.use('/settings', settings);
+app.use('/create', create);
+
 
 
 

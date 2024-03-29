@@ -1,11 +1,17 @@
 [
     {
+        "account-type": 0,
         "username": "user1",
-        "password": "hello"
+        "password": "hello",
+        "first-name": "",
+        "surname":"",
+        "email":"",
+        "phone number":""
+
     },
     {
+        "account-type": 1,
         "username": "admin1",
         "password": "parked"
-
     }
 ]
