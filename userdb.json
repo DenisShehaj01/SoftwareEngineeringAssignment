@@ -1,17 +1,23 @@
 [
     {
-        "account-type": 0,
+        "account_type": 0,
         "username": "user1",
-        "password": "hello",
-        "first-name": "",
-        "surname":"",
         "email":"",
-        "phone number":""
+        "password": "hello",
+        "firstname": "",
+        "surname":"",
+        "phone-number":""
 
     },
     {
-        "account-type": 1,
+        "account_type": 1,
         "username": "admin1",
         "password": "parked"
+    },
+    {
+
+    },
+    {
+
     }
 ]

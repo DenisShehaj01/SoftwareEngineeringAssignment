@@ -15,3 +15,25 @@ exports.checkloginDetails = (username, password)=>{
     }
     return check;
 }
+
+exports.addNewUser = (username, password)=> {
+    var jsonObj = {
+        
+        account_type: 0,
+        username: "",
+        password: ""
+        
+    }
+    jsonObj.username = username;
+    jsonObj.password = password;
+
+    console.log(jsonObj);
+
+    var data = JSON.stringify(jsonObj, null, 2);
+
+    var count = Object.keys(userInfo).length;
+    console.log(count);
+
+    fs.appendFileSync("../userdb.json", data + ",");
+
+}
