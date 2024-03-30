@@ -32,8 +32,9 @@ exports.addNewUser = (username, password)=> {
     var data = JSON.stringify(jsonObj, null, 2);
 
     var count = Object.keys(userInfo).length;
+    
     console.log(count);
 
-    fs.appendFileSync("../userdb.json", data + ",");
+    fs.appendFileSync("../userdb.json", data + ", ");
 
 }
