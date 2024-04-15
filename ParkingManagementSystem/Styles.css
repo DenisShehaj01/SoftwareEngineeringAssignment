@@ -1,0 +1,48 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#changePasswordForm {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fffffc;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+#changePasswordForm h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+#changePasswordForm h2 {
+    text-align: center;
+    font-size: 15px;
+
+}
+#changePasswordForm input[type="text"],
+#changePasswordForm input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+#changePasswordForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#changePasswordForm button:hover {
+    background-color: #0056b3;
+}
