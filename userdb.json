@@ -6,13 +6,14 @@
         "password": "hello",
         "firstname": "",
         "surname":"",
-        "phone-number":""
+        "balance": 0
 
     },
     {
         "account_type": 1,
         "username": "admin1",
-        "password": "parked"
+        "password": "parked",
+        "balance": 0
     },
     {
 

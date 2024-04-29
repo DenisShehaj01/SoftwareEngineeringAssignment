@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const paymodel = require("../../model/payments");
 
 router.get('/', function(req, res, next) {
  
@@ -7,3 +8,10 @@ router.get('/', function(req, res, next) {
   });
 
 module.exports = router;
+
+
+router.post('/', (req, res, next)=> {
+  const credit = req.body.credit;
+  paymodel.addBal(credit);
+  res.render('payments');  
+  });
