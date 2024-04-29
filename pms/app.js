@@ -9,6 +9,8 @@ var login = require('./routes/login');
 var profile = require('./routes/profile');
 var settings = require('./routes/settings');
 var create = require('./routes/create');
+var payment = require('./routes/payments');
+
 
 var app = express();
 
@@ -27,6 +29,7 @@ app.use('/login', login);
 app.use('/profile', profile);
 app.use('/settings', settings);
 app.use('/create', create);
+app.use('/payments', payment);
 
 
 
