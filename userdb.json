@@ -1,24 +1,22 @@
 [
     {
-        "account_type": 0,
-        "username": "user1",
-        "email":"",
-        "password": "hello",
-        "firstname": "",
-        "surname":"",
-        "balance": 0
-
+      "account_type": 0,
+      "username": "user1",
+      "email": "ds2001@pms.co.uk",
+      "password": "$2b$10$xDCR6G9UTy/im3v9AXFrCu20bJ8eNiArvmjCYEPj705AS0/gvkgbu",
+      "firstname": "Daisy",
+      "surname": "Renton",
+      "phone-number": "01154092236",
+      "Car registration": "M1NT"
     },
     {
-        "account_type": 1,
-        "username": "admin1",
-        "password": "parked",
-        "balance": 0
-    },
-    {
-
-    },
-    { 
-
+      "account_type": 1,
+      "username": "user2",
+      "email": "js1996@pms.co.uk",
+      "password": "$2b$10$kU9xsOXRQ2zTX0gzXBxuSuLMEMbiH8ym33mfeYpWVai6BRXXfn.7K",
+      "firstname": "John",
+      "surname": "Smith",
+      "phone-number": "01154092236",
+      "Car registration": "PM5VE4"
     }
-]
+  ]
