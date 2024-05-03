@@ -1,0 +1,53 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const mysql = require('mysql');
+const Twilio = require('twilio');
+
+// Load environment variables
+require('dotenv').config();
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'secret_key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+const twilioClient = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
+// Function to send SMS
+function sendSMS(to, message) {
+    twilioClient.messages.create({
+        body: message,
+        to: to,  // Text this number
+        from: process.env.TWILIO_PHONE_NUMBER // From a valid Twilio number
+    }).then((message) => console.log(message.sid));
+}
+
+// Endpoint to handle sending messages
+app.post('/send-message', (req, res) => {
+    const { phoneNumber, message } = req.body;
+    sendSMS(phoneNumber, message);
+    res.send('Message sent successfully');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+// Endpoint to receive messages
+app.post('/receive-message', (req, res) => {
+    const incomingMsg = req.body.Body;
+    const sender = req.body.From;
+
+    console.log(`Message received from ${sender}: ${incomingMsg}`);
+    // You can add logic here to handle the message, like storing it in the database
+
+    res.status(200).send('<Response></Response>'); // Respond to Twilio's servers
+});
