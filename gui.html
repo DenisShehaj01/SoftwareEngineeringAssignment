@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Management</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            background-color: #f4f4f4;
+            overflow: auto;
+        }
+
+        .parking-lot {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .parking-lot-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-lot {
+            cursor: pointer;
+            color: red;
+            margin-right: 10px;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .space {
+            width: 70px;
+            height: 70px;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 2px;
+            border: none;
+            border-radius: 3px;
+            background-color: limegreen;
+        }
+
+        .label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .add-parking-lot-form {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .add-parking-lot-form input[type="text"],
+        .add-parking-lot-form input[type="number"] {
+            margin-right: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .add-parking-lot-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .add-parking-lot-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <select id="timeSelector">
+        <option value="06:00-07:00">06:00 - 07:00</option>
+        <option value="07:00-08:00">07:00 - 08:00</option>
+        <option value="08:00-09:00">08:00 - 09:00</option>
+        <option value="09:00-10:00">09:00 - 10:00</option>
+        <option value="10:00-11:00">10:00 - 11:00</option>
+        <option value="11:00-12:00">11:00 - 12:00</option>
+        <option value="12:00-13:00">12:00 - 13:00</option>
+        <option value="13:00-14:00">13:00 - 14:00</option>
+        <option value="14:00-15:00">14:00 - 15:00</option>
+        <option value="15:00-16:00">15:00 - 16:00</option>
+        <option value="16:00-17:00">16:00 - 17:00</option>
+        <option value="17:00-18:00">17:00 - 18:00</option>
+        <option value="18:00-19:00">18:00 - 19:00</option>
+        <option value="19:00-20:00">19:00 - 20:00</option>
+        <option value="20:00-21:00">20:00 - 21:00</option>
+        <option value="21:00-22:00">21:00 - 22:00</option>
+        <option value="22:00-23:00">22:00 - 23:00</option>
+        <option value="23:00-24:00">23:00 - 00:00</option>
+    </select>
+    
+    
+    <div class="add-parking-lot-form">
+        <input type="text" id="newLotName" placeholder="Enter parking lot name" />
+        <input type="number" id="newLotSpaces" placeholder="Number of spaces" min="1" />
+        <button onclick="addNewParkingLot()">Add Parking Lot</button>
+    </div>
+
+    <div id="parkingLot1" class="parking-lot">
+        <div class="parking-lot-header">
+            <span>Main Car Park</span>
+            <span class="delete-lot" onclick="deleteParkingLot('parkingLot1')">X</span>
+        </div>
+    </div>
+    <div id="parkingLot2" class="parking-lot">
+        <div class="parking-lot-header">
+            <span>Sportspark Car Park</span>
+            <span class="delete-lot" onclick="deleteParkingLot('parkingLot2')">X</span>
+        </div>
+    </div>
+    <div id="parkingLot3" class="parking-lot">
+        <div class="parking-lot-header">
+            <span>Accommodation Car Park</span>
+            <span class="delete-lot" onclick="deleteParkingLot('parkingLot3')">X</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const state = loadState() || {};
+
+            function initializeParkingLot(parkingLotId, spaces) {
+                const parkingLot = document.getElementById(parkingLotId);
+                let row, space, label, selector, rowCount = 4;
+                for (let i = 0; i < Math.ceil(spaces / rowCount); i++) {
+                    row = document.createElement('div');
+                    row.className = 'row';
+                    for (let j = 0; j < rowCount; j++) {
+                        space = document.createElement('div');
+                        space.className = 'space';
+                        space.id = parkingLotId + '_space' + (i * rowCount + j);
+                        label = document.createElement('div');
+                        label.className = 'label';
+                        label.innerText = String.fromCharCode(65 + i) + (j + 1);
+                        space.appendChild(label);
+                        selector = document.createElement('select');
+                        addOptionsToSelector(selector, space.id);
+                        space.appendChild(selector);
+                        row.appendChild(space);
+                    }
+                    parkingLot.appendChild(row);
+                }
+            }
+
+            function addOptionsToSelector(selector, spaceId) {
+                const options = ['Available', 'Reserved', 'Blocked'];
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.toLowerCase();
+                    opt.innerText = option;
+                    selector.appendChild(opt);
+                });
+                const time = document.getElementById('timeSelector').value;
+                const savedStatus = state[spaceId] && state[spaceId][time];
+                if (savedStatus) {
+                    selector.value = savedStatus;
+                }
+                selector.onchange = handleChange;
+                selector.style.backgroundColor = getStatusColor(selector.value);
+            }
+
+            function handleChange() {
+                const spaceId = this.parentNode.id;
+                const time = document.getElementById('timeSelector').value;
+                const status = this.value;
+                if (!state[spaceId]) {
+                    state[spaceId] = {};
+                }
+                state[spaceId][time] = status;
+                this.style.backgroundColor = getStatusColor(status);
+                saveState();
+            }
+
+            function getStatusColor(status) {
+                switch (status) {
+                    case 'available': return 'limegreen';
+                    case 'reserved': return 'orange';
+                    case 'blocked': return 'red';
+                    default: return 'transparent';
+                }
+            }
+
+            function loadStateForTime(time) {
+                document.querySelectorAll('.space').forEach(space => {
+                    const selector = space.querySelector('select');
+                    const status = state[space.id] && state[space.id][time] ? state[space.id][time] : 'available';
+                    selector.value = status;
+                    selector.style.backgroundColor = getStatusColor(status);
+                });
+            }
+
+            function loadState() {
+                return JSON.parse(localStorage.getItem('parkingState'));
+            }
+
+            function saveState() {
+                localStorage.setItem('parkingState', JSON.stringify(state));
+            }
+
+            document.getElementById('timeSelector').addEventListener('change', function() {
+                loadStateForTime(this.value);
+            });
+
+            // Initialize parking lots
+            initializeParkingLot('parkingLot1', 20);
+            initializeParkingLot('parkingLot2', 20);
+            initializeParkingLot('parkingLot3', 20);
+            loadStateForTime(document.getElementById('timeSelector').value);
+
+            // Function to add new parking lot
+            window.addNewParkingLot = function() {
+                const lotName = document.getElementById('newLotName').value.trim();
+                const spaces = parseInt(document.getElementById('newLotSpaces').value, 10);
+                if (!lotName || isNaN(spaces) || spaces < 1) {
+                    alert('Please enter a valid name and number of spaces.');
+                    return;
+                }
+                
+                // Create a new parking lot ID based on the number of existing lots
+                const parkingLotId = 'parkingLot' + (document.querySelectorAll('.parking-lot').length + 1);
+                const parkingLot = document.createElement('div');
+                parkingLot.id = parkingLotId;
+                parkingLot.className = 'parking-lot';
+                const header = document.createElement('div');
+                header.className = 'parking-lot-header';
+                header.innerHTML = `<span>${lotName}</span><span class="delete-lot" onclick="deleteParkingLot('${parkingLotId}')">X</span>`;
+                parkingLot.appendChild(header);
+                document.body.appendChild(parkingLot);
+                
+                initializeParkingLot(parkingLotId, spaces);
+                document.getElementById('newLotName').value = '';
+                document.getElementById('newLotSpaces').value = '';
+            }
+
+            // Function to delete a parking lot
+            window.deleteParkingLot = function(lotId) {
+                const lotElement = document.getElementById(lotId);
+                if (lotElement) {
+                    lotElement.parentNode.removeChild(lotElement);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
