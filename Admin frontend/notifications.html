@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications - UEA Parking Management System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    body, html {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f4f4;
+    }
+    .header, .nav-bar {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-align: left;
+    }
+    .nav-bar a {
+        color: white;
+        padding: 0 10px;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .nav-bar a:hover {
+        color: #ffdd57;
+    }
+    .nav-bar a.active {
+        font-weight: bold;
+    }
+    .content {
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .footer {
+        text-align: center;
+        padding: 10px 20px;
+        background: #ddd;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+    .notification-box {
+        background-color: white;
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .notification-box h2 {
+        margin-top: 0;
+    }
+    .notification-box i {
+        margin-right: 10px;
+        color: #007bff;
+    }
+</style>
+</head>
+<body>
+<div class="header">
+    Welcome, Admin!
+</div>
+<div class="nav-bar">
+    <a href="/homepage.html">Home</a>
+    <a href="/Parking Lots.html">Parking Lots</a>
+    <a href="/settings.html">Settings</a>
+    <a href="/communicate.html">Communicate</a>
+    <a href="/notifications.html" class="active">Notifications</a>
+</div>
+<div class="content">
+    <h1>UEA Parking Management System</h1>
+    <p>Welcome to your notifications page. Here you can view all the latest notifications related to the parking management system.</p>
+    
+    <!-- Notifications Section -->
+    <div class="notification-box">
+        <h2><i class="fas fa-bell"></i> All Notifications</h2>
+        <!-- Add notification items here -->
+    </div>
+    
+</div>
+<div class="footer">
+    UEA Parking Management System © 2024
+</div>
+</body>
+</html>

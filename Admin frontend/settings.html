@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - UEA Parking Management System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    body, html {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f4f4;
+    }
+    .header, .nav-bar {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-align: left;
+    }
+    .nav-bar a {
+        color: white;
+        padding: 0 10px;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .nav-bar a:hover {
+        color: #ffdd57;
+    }
+    .nav-bar a.active {
+        font-weight: bold;
+    }
+    .content {
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .footer {
+        text-align: center;
+        padding: 10px 20px;
+        background: #ddd;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+    .notification-box, .user-list, .section {
+        background-color: white;
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .notification-box h2, .user-list h2, .section h2 {
+        display: flex;
+        align-items: center;
+        margin-top: 0;
+    }
+    .notification-box h2 i, .user-list h2 i, .section h2 i {
+        margin-right: 10px;
+        color: #007bff;
+    }
+    .user-list ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .user-list li {
+        margin-bottom: 5px;
+    }
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .section select {
+        padding: 5px;
+        margin-right: 10px;
+    }
+    .section button {
+        padding: 5px 10px;
+        border-radius: 3px;
+        border: none;
+        cursor: pointer;
+    }
+    .block-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+    .reserve-btn {
+        background-color: #28a745;
+        color: white;
+    }
+</style>
+</head>
+<body>
+<div class="header">
+    Welcome, Admin!
+</div>
+<div class="nav-bar">
+    <a href="/homepage.html">Home</a>
+    <a href="/parking-lots.html">Parking Lots</a>
+    <a href="/settings.html" class="active">Settings</a>
+    <a href="/communicate.html">Communicate</a>
+    <a href="/notifications.html">Notifications</a>
+</div>
+<div class="content">
+    <h1>UEA Parking Management System</h1>
+    <p>Welcome to your settings page. Here you can configure various settings related to the parking management system.</p>
+    
+    <!-- User List Section -->
+    <div class="user-list">
+        <h2><i class="fas fa-users"></i> User List</h2>
+        <ul>
+            <li>Josh Anderson <button class="delete-btn">Delete</button></li>
+            <li>Dauti Lee <button class="delete-btn">Delete</button></li>
+            <li>Musa Mo <button class="delete-btn">Delete</button></li>
+        </ul>
+    </div>
+    
+    <!-- Block Parking Spaces Section -->
+    <div class="section">
+        <h2><i class="fas fa-ban"></i> Block Parking Spaces</h2>
+        <label for="block-car-park-1">Car Park 1:</label>
+        <select id="block-car-park-1">
+            <option value="1">Space 1</option>
+            <option value="2">Space 2</option>
+            <option value="3">Space 3</option>
+            <!-- Add more spaces as needed -->
+        </select>
+        <button class="block-btn" onclick="blockSpace('block-car-park-1')">Block</button>
+
+        <br><br>
+
+        <label for="block-car-park-2">Car Park 2:</label>
+        <select id="block-car-park-2">
+            <option value="1">Space 1</option>
+            <option value="2">Space 2</option>
+            <option value="3">Space 3</option>
+            <!-- Add more spaces as needed -->
+        </select>
+        <button class="block-btn" onclick="blockSpace('block-car-park-2')">Block</button>
+    </div>
+
+    <!-- Reserve Parking Spaces Section -->
+    <div class="section">
+        <h2><i class="fas fa-parking"></i> Reserve Parking Spaces</h2>
+        <label for="reserve-car-park-1">Car Park 1:</label>
+        <select id="reserve-car-park-1">
+            <option value="1">Space 1</option>
+            <option value="2">Space 2</option>
+            <option value="3">Space 3</option>
+            <!-- Add more spaces as needed -->
+        </select>
+        <button class="reserve-btn" onclick="reserveSpace('reserve-car-park-1')">Reserve</button>
+
+        <br><br>
+
+        <label for="reserve-car-park-2">Car Park 2:</label>
+        <select id="reserve-car-park-2">
+            <option value="1">Space 1</option>
+            <option value="2">Space 2</option>
+            <option value="3">Space 3</option>
+            <!-- Add more spaces as needed -->
+        </select>
+        <button class="reserve-btn" onclick="reserveSpace('reserve-car-park-2')">Reserve</button>
+    </div>
+
+</div>
+<div class="footer">
+    UEA Parking Management System © 2024
+</div>
+
+<script>
+    // Function to delete user
+    function deleteUser(event) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            event.target.parentNode.remove();
+        }
+    }
+
+    // Attach event listener to all delete buttons
+    var deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', deleteUser);
+    });
+
+    // Function to block a parking space
+    function blockSpace(selectId) {
+        var select = document.getElementById(selectId);
+        var space = select.options[select.selectedIndex].text;
+        alert('Blocking ' + space);
+        // Add your blocking logic here
+    }
+
+    // Function to reserve a parking space
+    function reserveSpace(selectId) {
+        var select = document.getElementById(selectId);
+        var space = select.options[select.selectedIndex].text;
+        alert('Reserving ' + space);
+        // Add your reserving logic here
+    }
+</script>
+
+</body>
+</html>
