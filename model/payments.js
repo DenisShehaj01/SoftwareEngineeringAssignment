@@ -17,3 +17,7 @@ exports.chargeFee=(fee)=>{
     currentBal -= fee;
     return currentBal;
 }
+
+exports.paymentNotif=(balance)=>{
+    console.log(error);
+}
