@@ -10,12 +10,52 @@
     <div class="notification-container">
       <h2>Notifications</h2>
       <ul class="notification-list">
-        <!-- Example Notification -->
         <li class="notification">
           Parking Spot 42 will be free in 10 minutes.
         </li>
-        <!-- More notifications -->
+        <!-- More notifications will be dynamically added here -->
       </ul>
     </div>
+    <div class="chat-notifications">
+      <h2>Chat Messages</h2>
+      <div id="chatMessages" class="chat-messages">
+        <!-- Chat messages will appear here -->
+      </div>
+      <h2>Send a Message</h2>
+      <form id="send-message-form">
+        <input
+          type="text"
+          id="messageToSend"
+          placeholder="Type your message here"
+          required
+        />
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io(); // Connect to the server via socket.io
+
+      // Listen for chat messages broadcasted from the server
+      socket.on("broadcast message", function (data) {
+        var chatMessagesContainer = document.getElementById("chatMessages");
+        var messageElement = document.createElement("p");
+        messageElement.textContent = `${data.username}: ${data.message}`;
+        chatMessagesContainer.appendChild(messageElement);
+      });
+
+      // Form to send messages
+      document
+        .getElementById("send-message-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          var messageToSend = document.getElementById("messageToSend").value;
+          if (messageToSend) {
+            socket.emit("new notification message", { message: messageToSend });
+            document.getElementById("messageToSend").value = ""; // Clear input after sending
+          }
+        });
+    </script>
   </body>
 </html>
