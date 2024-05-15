@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const paymodel = require("../../model/payments");
-
 var nodemailer = require ('nodemailer');
+
 
 var transporter = nodemailer.createTransport  ({
   service: 'gmail',
@@ -15,23 +14,21 @@ var transporter = nodemailer.createTransport  ({
 var mailOptions = { 
   from: 'mackenzieh331@gmail.com',
   to: 'mackenzieh331@gmail.com',
-  subject: 'Parking Notification',
-  //text: ('You added $' + credit + " to your account. Thank you!")
+  subject: 'Arrival Notification',
+  //text: ('Someone has arrived!")
 };
 
 
 
 router.get('/', function(req, res, next) {
  
-    res.render("payments", {title: "payments"})
-  });
+  res.render("notifyadminarrival", {title: 'Arrival'})
+});
 
 module.exports = router;
 
-
 router.post('/', (req, res, next)=> {
-  const credit = req.body.credit;
-  paymodel.addBal(credit);
+  console.log("Arrived");
   transporter.sendMail(mailOptions, function(error,info){
     if (error)  {
       console.log(error);
@@ -39,5 +36,5 @@ router.post('/', (req, res, next)=> {
       console.log("Email sent: " + info.response);
     }
   });
-  res.render('payments');  
+  res.render('notifyadminarrival');  
   });

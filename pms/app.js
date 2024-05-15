@@ -10,7 +10,8 @@ var profile = require('./routes/profile');
 var settings = require('./routes/settings');
 var create = require('./routes/create');
 var payment = require('./routes/payments');
-
+var notifyadminarrival = require('./routes/notifyadminarrival');
+var notifyadmindeparture = require('./routes/notifyadmindeparture');
 
 var app = express();
 
@@ -30,6 +31,9 @@ app.use('/profile', profile);
 app.use('/settings', settings);
 app.use('/create', create);
 app.use('/payments', payment);
+app.use('/notifyadminarrival', notifyadminarrival);
+app.use('/notifyadmindeparture', notifyadmindeparture);
+
 
 
 
