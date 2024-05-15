@@ -16,7 +16,7 @@ var mailOptions = {
   from: 'mackenzieh331@gmail.com',
   to: 'mackenzieh331@gmail.com',
   subject: 'Parking Notification',
-  text: ('You added $' + credit + " to your account. Thank you!")
+  //text: ('You added $' + credit + " to your account. Thank you!")
 };
 
 

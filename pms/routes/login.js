@@ -16,7 +16,6 @@ const username = req.body.username;
 const password = req.body.password;
 if (username == "user1" && password == 'hello')  {
   res.render('profile');
-
 }
 else  {
   res.render('login', {error: true});

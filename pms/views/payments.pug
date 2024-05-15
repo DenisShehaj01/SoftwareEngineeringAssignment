@@ -7,9 +7,20 @@ block content
     <body class = "background">
             <div class="container">
             <div class="box">
-                h3 <b>Amount Available</b>
-                p 
-                h2 Balance Here
+                h3 <b>Make Payment</b>
+                p Please enter your balance in the box below and hit 'Pay' to complete the transaction. You will receive notification of the payment shortly. Thank you!
+                form(action='#', method = 'POST')
+                label(for='credit')
+                input#username(type='text' 
+                name='credit'
+                placeholder = '0.00'
+                required = '')
+                br
+                p
+                p
+                p
+                br
+                input(type='submit' value='Pay')
                 p
             </div>
             <div class="box"> 
