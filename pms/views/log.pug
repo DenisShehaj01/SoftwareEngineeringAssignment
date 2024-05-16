@@ -1,0 +1,44 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Login
+    link(rel='stylesheet' ,type = 'text/css', href='/Easyparking.css')
+  body
+    form(action='/log/login', method='POST', id='loginForm')
+      h2 Login
+      .input-group
+        label(for='username') Username:
+        input(type='text', id='username', name='username', required)
+      .input-group
+        label(for='password') Password:
+        input(type='password', id='password', name='password', required)
+        input(type='radio', id='admin', name='userType', value='1')
+        label(for='admin') Admin
+        br
+        input(type='radio', id='client', name='userType', value='0')
+        label(for='client') Client
+        br
+        // Hidden input field to store the selected value
+        input(type='hidden', id='hiddenUserType', name='hiddenUserType')
+      button(type='submit') Login
+
+    // Script block for JavaScript
+    script.
+    
+      const adminRadio = document.getElementById('admin');
+      const clientRadio = document.getElementById('client');
+      const hiddenUserType = document.getElementById('hiddenUserType');
+
+      
+      adminRadio.addEventListener('change', () => {
+          hiddenUserType.value = '1'; // Set hidden input value to '1' when Admin is selected
+      });
+
+      clientRadio.addEventListener('change', () => {
+          hiddenUserType.value = '0'; // Set hidden input value to '0' when Client is selected
+      });
+
+      
+      hiddenUserType.value = adminRadio.checked ? '1' : '0';
