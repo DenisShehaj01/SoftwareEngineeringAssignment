@@ -1,0 +1,108 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        title Campus Parking Request Form
+        style.
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+            
+            .form-container {
+                min-height: 100vh; /* Vertical height of the viewport */
+                display: flex;
+                align-items: center; /* Centers form in the vertical axis */
+                justify-content: center; /* Centers form in the horizontal axis */
+            }
+            
+            form {
+                border: 1px solid #ccc;
+                padding: 20px;
+                box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
+                border-radius: 8px;
+                background: #f9f9f9;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            input, select {
+                width: 100%; /* Makes inputs and select box full width of form */
+                padding: 8px;
+                margin-top: 8px; /* Adds spacing between form items */
+                border-radius: 4px;
+                border: 1px solid #ccc;
+            }
+
+            button {
+                margin-top: 20px; /* Adds top margin for space before the button */
+                padding: 10px 20px;
+                border-radius: 4px;
+                border: none;
+                background-color: #848d84;
+                color: white;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #333b33;
+            }
+    body
+        .form-container
+            form(action='/sendrequest', method='post', onsubmit='return validateForm()')
+                h1 Send a Parking Request
+                label(for='destination') Choose your destination:
+                select#destination(name='destination', required)
+                    each carPark in carParks
+                        option(value=carPark.locationId) #{carPark.Name}
+                    //option(value='main_car_park') Main Car Park
+                    //option(value='sportspark_car_park') Sportspark Car Park
+                    //option(value='accommodation_car_park') Accommodation Car Park
+                br
+                br
+                label(for='arrival') Arrival date and time:
+                input#arrival(type='datetime-local', name='arrival', required)
+                br
+                br
+                label(for='departure') Departure date and time:
+                input#departure(type='datetime-local', name='departure', required)
+                br
+                label(for='cost') Parking Cost (&pound;):
+                input#cost(type='text' name='cost' readonly='')
+                br
+                br
+                button(type='submit') Submit Request
+
+        script.
+            function validateForm() {
+                var arrival = new Date(document.getElementById('arrival').value);
+                var departure = new Date(document.getElementById('departure').value);
+                if (departure <= arrival) {
+                    alert('Departure time must be later than arrival time.');
+                    return false;
+                }
+                calculateCost(); // Ensure cost is updated at submission time if not already done
+                return true;
+            }
+
+                
+            function calculateCost() {
+                var arrival = new Date(document.getElementById('arrival').value);
+                var departure = new Date(document.getElementById('departure').value);
+                if (isNaN(arrival) || isNaN(departure) || departure <= arrival) {
+                    document.getElementById('cost').value = ''; // Clear the cost field if the input is invalid
+                    return;
+                }
+                var diff = departure - arrival; // difference in milliseconds
+                var hours = diff / 3600000; // convert milliseconds to hours
+                var cost = Math.ceil(hours); // rounds up to the nearest hour
+                document.getElementById('cost').value = cost; // set the calculated cost
+                }
+
+            // Add event listeners to recalculate the cost when the inputs change
+            document.getElementById('arrival').addEventListener('input', calculateCost);
+            document.getElementById('departure').addEventListener('input', calculateCost);
+

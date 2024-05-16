@@ -12,6 +12,11 @@ var create = require('./routes/create');
 var payment = require('./routes/payments');
 var notifyadminarrival = require('./routes/notifyadminarrival');
 var notifyadmindeparture = require('./routes/notifyadmindeparture');
+var settings = require('./routes/AdminSettings');
+var park = require('./routes/park');
+var carparkgui = require('./routes/carparkgui');
+var parkingrequests = require('./routes/parkingrequests');
+var AdminSettings = require('./routes/AdminSettings');
 
 var app = express();
 
@@ -33,6 +38,10 @@ app.use('/create', create);
 app.use('/payments', payment);
 app.use('/notifyadminarrival', notifyadminarrival);
 app.use('/notifyadmindeparture', notifyadmindeparture);
+app.use('/AdminSettings', AdminSettings);
+app.use('/sendrequest', park);
+app.use('/carparkgui', carparkgui);
+app.use('/parkingrequests', parkingrequests);
 
 
 

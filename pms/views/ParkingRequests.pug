@@ -1,0 +1,80 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Communication - UEA Parking Management System
+  style.
+    body, html {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    }
+    .header, .nav-bar {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-align: left;
+    }
+    .nav-bar a {
+    color: white;
+    padding: 0 10px;
+    text-decoration: none;
+    }
+    .nav-bar a:hover {
+    color: #ffdd57;
+    }
+    .nav-bar a.active{
+    font-weight: bold;
+    }
+    .content {
+    padding: 20px;
+    margin-top: 20px;
+    }
+    .footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: #ddd;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    }
+.header
+  | Welcome, Admin!
+.nav-bar
+  a.active(href='/') Home
+  a(href='/carparkgui') View Car Park
+  a(href='/settings') Settings
+  a(href='/communicate') Communicate
+  a(href='/parkingrequests') Parking Requests
+.content
+  p Accept or Deny Parking Requests:
+  if notifications.length
+  each notification in notifications
+    script.
+      const availableSpaces = await fetch(`/parkingrequests/available-spaces/${CarParkID}`);
+
+    div.notification
+    p  Request by user: #{notification.UserID} for carpark: #{notification.CarParkID} from time: #{notification.StartTime} to time: #{notification.EndTime}
+        form(action="/parkingrequests/handle-notification",method="POST")
+          input(type="hidden" name="notification_id" value=notification.notification_id)
+          input(type="hidden" name="UserID" value=notification.UserID)
+          input(type="hidden" name="CarParkID" value=notification.CarParkID)
+          input(type="hidden" name="StartTime" value=notification.StartTime)
+          input(type="hidden" name="EndTime" value=notification.EndTime)
+          label(for="parkingSpace") Select Parking Space:
+          select(name="parkingSpace" id="parkingSpace")
+            option(value="") Assign Automatically
+            each space in availableSpaces[notification.CarParkID]
+              option(value=space) #{space}
+            //- Add options dynamically for available parking spaces
+          button(type="submit" name="action" value="accept") Accept
+          button(type="submit" name="action" value="deny") Deny
+          br
+          br
+  else
+    p No notifications currently
+
+
+.footer
+  | UEA Parking Management System &copy; 2024

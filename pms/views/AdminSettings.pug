@@ -1,0 +1,220 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Settings - UEA Parking Management System
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css')
+  style.
+    body, html {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    }
+    .header, .nav-bar {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-align: left;
+    }
+    .nav-bar a {
+    color: white;
+    padding: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+    }
+    .nav-bar a:hover {
+    color: #ffdd57;
+    }
+    .nav-bar a.active {
+    font-weight: bold;
+    }
+    .content {
+    padding: 20px;
+    margin-top: 20px;
+    }
+    .footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: #ddd;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    }
+    .notification-box, .user-list, .section {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    }
+    .notification-box h2, .user-list h2, .section h2 {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    }
+    .notification-box h2 i, .user-list h2 i, .section h2 i {
+    margin-right: 10px;
+    color: #007bff;
+    }
+    .user-list ul {
+    list-style-type: none;
+    padding: 0;
+    }
+    .user-list li {
+    margin-bottom: 5px;
+    }
+    .delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    }
+    .section select {
+    padding: 5px;
+    margin-right: 10px;
+    }
+    .section button {
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    }
+    .block-btn {
+    background-color: #dc3545;
+    color: white;
+    }
+    .reserve-btn {
+    background-color: #28a745;
+    color: white;
+    }
+.header
+  | Welcome, Admin!
+.nav-bar
+.nav-bar
+  a.active(href='/index') Home
+  a(href='/carparkgui') View Car Park
+  a(href='/settings') Settings
+  a(href='/communicate') Communicate
+  a(href='/parkingrequests') Parking Requests
+.content
+  h1 UEA Parking Management System
+  p
+    | Welcome to your settings page. Here you can configure various settings related to the parking management system.
+  // User List Section
+  .user-list
+    h2
+      i.fas.fa-users
+      |  User List
+    ul
+      li
+        | Josh Anderson 
+        button.delete-btn Delete
+      li
+        | Dauti Lee 
+        button.delete-btn Delete
+      li
+        | Musa Mo 
+        button.delete-btn Delete
+  // Block Parking Spaces Section
+  .section
+    h2
+      i.fas.fa-ban
+      |  Block Parking Spaces
+    .form-container
+      form(action='/settings/block', method='post')
+        if CarParkArray.length
+          each CarPark in CarParkArray
+            label(for='block-car-park-'+CarPark.Name) #{CarPark[1]}:
+            select(id='block-car-park-' + CarPark[0], name='spaceNumber'+ CarPark[0])
+              - var numberOfSpaces = CarPark[2];
+              - for (var i = 1; i <= numberOfSpaces; i++)
+                  option(value=i) Space #{i}
+            button.block-btn(type='submit', name='carParkName', value=CarPark[0]) Block
+            br
+            br
+  // Reserve Parking Spaces Section
+  .section
+    h2
+      i.fas.fa-ban
+      |  Reserve Parking Spaces
+    .form-container
+      form(action='/settings/reserve', method='post')
+        if CarParkArray.length
+          each CarPark in CarParkArray
+            label(for='reserve-car-park-'+CarPark.Name) #{CarPark[1]}:
+            select(id='reserve-car-park-' + CarPark[0], name='spaceNumber'+ CarPark[0])
+              - var numberOfSpaces = CarPark[2];
+              - for (var i = 1; i <= numberOfSpaces; i++)
+                  option(value=i) Space #{i}
+            button.reserve-btn(type='submit', name='carParkName', value=CarPark[0]) Reserve
+            br
+            br
+
+
+  // Show Blocked Parking Spaces
+  .section
+    h2
+      i.fas.fa-ban
+      |  Unblock Parking Spaces
+    .form-container
+      form(action='/settings/unblock', method='post')
+        if CarParkArray.length
+          each CarPark in CarParkArray
+            label(for='block-car-park-'+CarPark.Name) #{CarPark[1]}:
+            select(id='block-car-park-' + CarPark[0], name='spaceNumber'+ CarPark[0])
+              if BlockedSpacesArray.length 
+                each space in BlockedSpacesArray 
+                  - if (space[0] == CarPark[0])
+                      option(value=space[1]) Space #{space[1]}
+            button.block-btn(type='submit', name='carParkName', value=CarPark[0]) Unblock
+            br
+            br
+           
+  // Show reserved Parking Spaces
+  .section
+    h2
+      i.fas.fa-ban
+      |  Unreserve Parking Spaces
+    .form-container
+      form(action='/settings/unblock', method='post')
+        if CarParkArray.length
+          each CarPark in CarParkArray
+            label(for='reserve-car-park-'+CarPark.Name) #{CarPark[1]}:
+            select(id='reserve-car-park-' + CarPark[0], name='spaceNumber'+ CarPark[0])
+              if ReservedSpacesArray.length 
+                each space in ReservedSpacesArray 
+                  - if (space[0] == CarPark[0])
+                      option(value=space[1]) Space #{space[1]}
+            button.reserve-btn(type='submit', name='carParkName', value=CarPark[0]) Unreserve
+            br
+            br
+
+.footer
+  | UEA Parking Management System &copy; 2024
+script.
+  // Function to delete user
+  function deleteUser(event) {
+  if (confirm("Are you sure you want to delete this user?")) {
+  event.target.parentNode.remove();
+  }
+  }
+  // Attach event listener to all delete buttons
+  var deleteButtons = document.querySelectorAll('.delete-btn');
+  deleteButtons.forEach(function(button) {
+  button.addEventListener('click', deleteUser);
+  });
+  // Function to block a parking space
+  function blockSpace(CarParkID,Space) {
+  alert('Blocking ' + CarParkID + Space);
+  // Add your blocking logic here
+  }
+  // Function to reserve a parking space
+  function reserveSpace(selectId) {
+  var select = document.getElementById(selectId);
+  var space = select.options[select.selectedIndex].text;
+  alert('Reserving ' + space);
+  // Add your reserving logic here
+  }
