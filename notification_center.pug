@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    title= title
+  body
+    h1 Notification Center
+    ul#notifications
+      each notification in notifications
+        li= notification
+    form#notificationForm(action='/notifications/send-notifications', method='post')
+      input(type='text', name='message')
+      button(type='submit') Send
+    script.
+      document.getElementById('notificationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = event.target.message.value;
+
+        fetch('/notifications/send-notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message }),
+        }).then(response => response.json())
+          .then(data => {
+              if(data.success) {
+                  const li = document.createElement('li');
+                  li.textContent = message;
+                  document.getElementById('notifications').appendChild(li);
+                  event.target.message.value = '';
+              }
+          });
+      });
+
+      // Function to periodically fetch new notifications
+      function fetchNotifications() {
+        fetch('/notifications/receive-notifications')
+          .then(response => response.json())
+          .then(data => {
+            const notificationList = document.getElementById('notifications');
+            data.messages.forEach(notification => {
+              const li = document.createElement('li');
+              li.textContent = notification;
+              notificationList.appendChild(li);
+            });
+          });
+      }
+
+      // Fetch new notifications every 5 seconds
+      setInterval(fetchNotifications, 5000);
