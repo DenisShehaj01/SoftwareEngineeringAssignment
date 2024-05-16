@@ -111,6 +111,8 @@ app.get("/login", (req, res) => {
 app.get("/AdminHome", (req, res) => {
     res.render("AdminHome");
 });
-
+app.get("/SendRequest", (req, res) => {
+    res.render("SendRequest");
+});
 // Export the app
 module.exports = app;
