@@ -108,7 +108,9 @@ app.get("/resetpassword", (req, res) => {
 app.get("/login", (req, res) => {
     res.render("log");
 });
-
+app.get("/AdminHome", (req, res) => {
+    res.render("AdminHome");
+});
 
 // Export the app
 module.exports = app;
