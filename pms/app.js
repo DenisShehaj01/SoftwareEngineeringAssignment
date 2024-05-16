@@ -1,66 +1,78 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const mysql = require('mysql');
 
-var indexRouter = require('./routes/index');
-var login = require('./routes/login');
-var profile = require('./routes/profile');
-var settings = require('./routes/settings');
-var create = require('./routes/create');
-var payment = require('./routes/payments');
-var notifyadminarrival = require('./routes/notifyadminarrival');
-var notifyadmindeparture = require('./routes/notifyadmindeparture');
-var settings = require('./routes/AdminSettings');
-var park = require('./routes/park');
-var carparkgui = require('./routes/carparkgui');
-var parkingrequests = require('./routes/parkingrequests');
-var AdminSettings = require('./routes/AdminSettings');
+// Initialize the Express application
+const app = express();
 
-var app = express();
+// Middleware for parsing request bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+// Session middleware configuration
+app.use(session({
+    secret: 'secret_key', // Change this to a random unique string in production
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/login', login);
-app.use('/profile', profile);
-app.use('/settings', settings);
-app.use('/create', create);
-app.use('/payments', payment);
-app.use('/notifyadminarrival', notifyadminarrival);
-app.use('/notifyadmindeparture', notifyadmindeparture);
-app.use('/AdminSettings', AdminSettings);
-app.use('/sendrequest', park);
-app.use('/carparkgui', carparkgui);
-app.use('/parkingrequests', parkingrequests);
-
-
-
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// MySQL connection pool configuration
+const pool = mysql.createPool({
+    connectionLimit: 10, // Maximum number of connections to create at once
+    host: 'localhost', // Host where  database server is running
+    user: 'mysql_username', // database username
+    password: 'mysql_password', //  database password
+    database: 'EasyParking' // Name of your database
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// Serve static files from a specified directory (e.g., where your frontend files are)
+app.use(express.static(__dirname));
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// Define a simple route for the homepage
+app.get('/', (req, res) => {
+    res.send('Welcome to Easy Parking!');
 });
 
-module.exports = app;
+// User login endpoint
+app.post('/user-login', (req, res) => {
+    const { username, password } = req.body;
+    const query = 'SELECT * FROM users WHERE username = ? AND password = ? AND role = "user"';
+    pool.query(query, [username, password], (error, results) => {
+        if (error) {
+            return res.status(500).send('An error occurred with the database');
+        }
+        if (results.length > 0) {
+            req.session.loggedin = true;
+            req.session.username = username;
+            res.redirect('/user-dashboard');
+        } else {
+            res.status(401).send('Incorrect Username and/or Password or not authorized!');
+        }
+    });
+});
+
+// Admin login endpoint
+app.post('/admin-login', (req, res) => {
+    const { username, password } = req.body;
+    const query = 'SELECT * FROM users WHERE username = ? AND password = ? AND role = "admin"';
+    pool.query(query, [username, password], (error, results) => {
+        if (error) {
+            return res.status(500).send('An error occurred with the database');
+        }
+        if (results.length > 0) {
+            req.session.loggedin = true;
+            req.session.username = username;
+            res.redirect('/admin-dashboard');
+        } else {
+            res.status(401).send('Incorrect Username and/or Password or not authorized!');
+        }
+    });
+});
+
+// Start the server on a specified port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
