@@ -14,8 +14,8 @@ var transporter = nodemailer.createTransport  ({
 var mailOptions = { 
   from: 'mackenzieh331@gmail.com',
   to: 'mackenzieh331@gmail.com',
-  subject: 'Arrival Notification',
-  //text: ('Someone has arrived!")
+  subject: 'Parking Notification',
+  text: ('Notification: A user has arrived at the parking lot. Spot 5 is now occupied.')
 };
 
 

@@ -7,25 +7,9 @@ block content
     <body class = "background">
     
             <div class="container">
-            <div class="box">
-                h3 <b>Make Payment</b>
-                p Please enter your balance in the box below and hit 'Pay' to complete the transaction. You will receive notification of the payment shortly. Thank you!
-                form(align = "center" action='#', method = 'POST')
-                label(for='payment')
-                input#payment(type='text' 
-                name='payment'
-                placeholder = '0.00'
-                required = '')
-                br
-                p
-                p
-                p
-                br
-                input(type='submit' value='Pay')
-                p
-            </div>
             <div class="box"> 
-                h3 Add Credit
+                h3 Make Payment
+                <p style="text-align:center;"> Please enter your balance in the box below and hit 'Pay' to complete the transaction. You will receive notification of the payment shortly. Thank you!
             form(align = "center" action='#', method = 'POST')
                 label(for='credit')
                 input#credit(type='text' 

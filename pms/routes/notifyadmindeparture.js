@@ -15,7 +15,7 @@ var mailOptions = {
     from: 'mackenzieh331@gmail.com',
     to: 'mackenzieh331@gmail.com',
     subject: 'Departure Notification',
-    //text: ('Someone has departed!")
+    text: ('Notification: A user has departed from the parking lot. Spot 5 is now available.')
   };  
 
 router.get('/', function(req, res, next) {
