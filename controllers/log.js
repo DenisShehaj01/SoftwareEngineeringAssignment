@@ -52,7 +52,7 @@ exports.login = (req, res) => {
             res.redirect('/profile');
         } else if (hiddenUserType === '1') {
             // Admin
-            res.redirect('/homepage.html');
+            res.redirect('/AdminHome');
         }
     });
 };

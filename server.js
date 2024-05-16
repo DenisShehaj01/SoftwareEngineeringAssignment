@@ -40,13 +40,12 @@ app.set('views', path.join(__dirname, 'pms', 'views'));
 
 //routes for each page 
 app.get("/", (req, res) => {
-    res.render('index');
+    res.render('password');
 });
 
 app.get("/log", (req, res) => {
     res.render('log');
 });
-
 
 app.get("/create", (req, res) => {
     res.render('create');
